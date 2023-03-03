@@ -1,0 +1,20 @@
+*{
+    margin: 0px;   
+    padding: 0px;
+}
+
+.input-Imagen-container{
+    display: block;
+    background-color: red;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    padding: 10px;
+}
+
+.image-upload{
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

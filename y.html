@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <form enctype="multipart/form-data" method="POST" action="procesar_formulario.php">
+
+    <label for="nombre">Nombre completo:</label>
+    <input type="text" id="nombre" name="nombre" required><br><br>
+
+    <label for="email">usuario</label>
+    <input type="text" id="email" name="email" required><br><br>
+
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+
+    <label for="genero">Género:</label>
+    <select id="genero" name="genero" required>
+      <option value="masculino">Masculino</option>
+      <option value="femenino">Femenino</option>
+      <option value="otro">Otro</option>
+    </select><br><br>
+
+    <label for="pais">País de residencia:</label>
+    <input type="text" id="pais" name="pais" required><br><br>
+
+    <div id="input-Imagen-container" class="input-Imagen-container">
+      <div class="image-upload">
+        <label for="image-1">Imagen 1</label>
+        <input type="file" name="image-1" id="image-1" onchange="previewImage(event)" required>
+        <img id="preview-image-1" src="#" alt="Vista previa de la imagen" style="display: none">
+        <!-- <button type="button" class="add-image" onclick="addImage()">+ Agregar otra imagen</button> -->
+        <button type="button" class="add-image" onclick="addImage()" disabled>+ Agregar otra imagen</button>
+        <button type="button" class="delete-image" onclick="deleteImage(this)">+ Eliminar</button>
+      </div>
+    </div>
+    <input type="submit" value="Enviar">
+  </form>
+
+  <script>
+    const MAX_IMAGES = 5;
+    let imageCount = 1;
+
+    function addImage() {
+      if (imageCount >= MAX_IMAGES) {
+        alert("Lo sentimos, solo se pueden subir un máximo de 5 imágenes.");
+        return;
+      }
+
+
+      imageCount++;
+      const container = document.getElementById("input-Imagen-container");
+      const uploadDiv = document.createElement("div");
+      uploadDiv.className = "image-upload";
+      uploadDiv.innerHTML = `
+      <label for="image-${imageCount}">Imagen ${imageCount}</label>
+      <input type="file" name="image-${imageCount}" id="image-${imageCount}" onchange="previewImage(event)" required>
+      <img id="preview-image-${imageCount}" src="#" alt="Vista previa de la imagen" style="display: none">
+      <button type="button" class="add-image" onclick="addImage() disabled">+ Agregar otra imagen</button>
+      <button type="button" class="delete-image" onclick="deleteImage(this)">+ Eliminar</button>
+    `;
+      container.appendChild(uploadDiv);
+
+
+    }
+
+
+    function deleteImage(button) {
+      const uploadDiv = button.parentNode;
+      const container = uploadDiv.parentNode;
+      if (container.children.length === 1) {
+        alert("El formulario debe tener minimo una imagen \nsi desea cambiar la imagen puede seleccionar un archivo diferente");
+        return;
+      }
+      container.removeChild(uploadDiv);
+      imageCount--;
+    }
+
+    function previewImage(event) {
+      const input = event.target;
+      const img = input.parentNode.querySelector("img");
+      img.style.display = "block";
+      const reader = new FileReader();
+      reader.onload = function () {
+        img.src = reader.result;
+        enableAddImage();
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+
+    function enableAddImage() {
+      const addImageBtns = document.getElementsByClassName("add-image");
+      for (let i = 0; i < addImageBtns.length; i++) {
+        addImageBtns[i].disabled = false;
+
+
+      }
+    }
+
+
+  </script>
+
+
+</body>
+
+</html>
