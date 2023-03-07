@@ -14,10 +14,15 @@ mysqli_query($conexion, $insertar_usuario);
 // Obtener el ID del usuario insertado
 $id_usuario = mysqli_insert_id($conexion);
 
+$folder_name = "./imageness/{$id_usuario}";
+if(!file_exists($folder_name)) {
+  mkdir($folder_name);
+}
+
 
 
 // Definir la ruta del directorio donde se almacenarán las imágenes
-$ruta_almacenamiento = "imageness/";
+$ruta_almacenamiento = $folder_name;
 
 // Insertar datos en la tabla "Imagenes"
 foreach ($_FILES as $imagen) {
